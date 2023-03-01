@@ -46,7 +46,7 @@ const showAllNews = (data , category_name) =>{
     data.forEach(singleNews => {
         // console.log(singleNews);
 
-        const { _id,image_url, title, details, author, total_view} = singleNews;
+        const { _id,image_url, title, details, author, total_view, rating} = singleNews;
 
         // newsContainer.innerHTML += ``;
         const card = document.createElement("div");
@@ -79,12 +79,18 @@ const showAllNews = (data , category_name) =>{
                 <p class="m-0 p-0"> ${total_view} </p>
             </div>
 
-            <div>
+            <div class="d-flex gap-2 mt-3">
             <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half"></i>
+
+            <p>${rating.number}</p>
             </div>
 
             <div>
-            <i class="fas fa-arrow-right" onclick="fetchNewsDetail('${_id}')"></i>
+            <i class="fas fa-arrow-right" onclick="fetchNewsDetail('${_id}')" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
             </div>
           </div>
 
@@ -104,5 +110,51 @@ const fetchNewsDetail =  news_id => {
 };
 
 const showNewsDetail = newsDetail => {
-    
-}
+    // 
+    const { _id,image_url, title, details, author, total_view, rating} = newsDetail;
+
+    document.getElementById("modal-body").innerHTML = `
+        <div class="card mb-3">
+
+        <div class="row g-0 p-3">
+        <div class="col-md-12">
+        <img src=${image_url} class="img-fluid rounded-start" alt="...">
+        </div>
+
+        <div class="col-md-12 d-flex flex-column">
+        <div class="card-body">
+            <h5 class="card-title">${title}</h5>
+            <p class="card-text">
+                ${details}
+            </p>
+        </div>
+
+        <div class = "card-footer border-0 bg-body d-flex justify-content-between">
+            <div class="d-flex gap-2">
+            <img src=${author.img} class="img-fluid rounded-circle" alt="..." height="40" width="40"/>
+                <div>
+                <p class="m-0 p-0"> ${author.name} </p>
+                <p class="m-0 p-0"> ${author.published_date} </p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-eye"></i>
+                <p class="m-0 p-0"> ${total_view} </p>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half"></i>
+
+            <p>${rating.number}</p>
+            </div>
+
+        </div>
+
+            </div>
+        </div>
+            </div>
+        `;
+};
