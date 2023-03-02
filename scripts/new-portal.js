@@ -85,11 +85,7 @@ const showAllNews = (data , category_name) =>{
             </div>
 
             <div class="d-flex gap-2 mt-3">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half"></i>
+            ${generateStars(rating.number)}
 
             <p>${rating.number}</p>
             </div>
@@ -187,4 +183,17 @@ const showTrending = () => {
     // console.log(trendingNews);
     const category_name = document.getElementById("category-name").innerText;
     showAllNews(trendingNews, category_name);
-}
+};
+
+// optional
+// generate stars 
+const generateStars = rating => {
+    let ratingHTML = "";
+    for(let i = 1; i <= Math.floor(rating); i++){
+        ratingHTML += `<i class="fas fa-star"></i>`;
+    }
+    if(rating -Math.floor(rating) > 0){
+        ratingHTML += `<i class="fas fa-star-half"></i>`;
+    }
+    return ratingHTML;
+};
