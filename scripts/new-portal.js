@@ -1,3 +1,5 @@
+let fetchData = [];
+
 const fetchCategories = () => {
     fetch("https://openapi.programming-hero.com/api/news/categories")
     .then(res => res.json())
@@ -30,11 +32,14 @@ const fetchCategoryNews = (category_id , category_name) =>{
     // console.log(url);
     fetch(url)
     .then(res => res.json())
-    .then(data => showAllNews(data.data, category_name))
+    .then(data => {
+        fetchData = data.data;
+        showAllNews(data.data, category_name)
+    });
 };
 
 const showAllNews = (data , category_name) =>{
-    // console.log(data, category_name);
+    console.log(data, category_name);
 
     document.getElementById("news-count").innerText = data.length;
     document.getElementById("category-name").innerText =  category_name;
@@ -69,14 +74,14 @@ const showAllNews = (data , category_name) =>{
             <div class="d-flex gap-2">
             <img src=${author.img} class="img-fluid rounded-circle" alt="..." height="40" width="40"/>
                 <div>
-                <p class="m-0 p-0"> ${author.name} </p>
+                <p class="m-0 p-0"> ${author.name ? author.name : "Not available"} </p>
                 <p class="m-0 p-0"> ${author.published_date} </p>
                 </div>
             </div>
 
             <div class="d-flex align-items-center gap-2">
                 <i class="fas fa-eye"></i>
-                <p class="m-0 p-0"> ${total_view} </p>
+                <p class="m-0 p-0"> ${total_view ? total_view : "Not available"} </p>
             </div>
 
             <div class="d-flex gap-2 mt-3">
@@ -111,7 +116,7 @@ const fetchNewsDetail =  news_id => {
 
 const showNewsDetail = newsDetail => {
     // 
-    const { _id,image_url, title, details, author, total_view, rating} = newsDetail;
+    const { _id,image_url, title, details, author, total_view, rating, others_info} = newsDetail;
 
     document.getElementById("modal-body").innerHTML = `
         <div class="card mb-3">
@@ -123,7 +128,7 @@ const showNewsDetail = newsDetail => {
 
         <div class="col-md-12 d-flex flex-column">
         <div class="card-body">
-            <h5 class="card-title">${title}</h5>
+            <h5 class="card-title">${title} <span class="badge text-bg-warning">${others_info.is_trending ? "Trending" : "Not Trending"}</span></h5>
             <p class="card-text">
                 ${details}
             </p>
@@ -133,14 +138,14 @@ const showNewsDetail = newsDetail => {
             <div class="d-flex gap-2">
             <img src=${author.img} class="img-fluid rounded-circle" alt="..." height="40" width="40"/>
                 <div>
-                <p class="m-0 p-0"> ${author.name} </p>
+                <p class="m-0 p-0"> ${author.name ? author.name : "Not available"} </p>
                 <p class="m-0 p-0"> ${author.published_date} </p>
                 </div>
             </div>
 
             <div class="d-flex align-items-center gap-2">
                 <i class="fas fa-eye"></i>
-                <p class="m-0 p-0"> ${total_view} </p>
+                <p class="m-0 p-0"> ${total_view ? total_view : "Not available"} </p>
             </div>
 
             <div class="d-flex gap-2 mt-4">
@@ -158,3 +163,28 @@ const showNewsDetail = newsDetail => {
             </div>
         `;
 };
+
+// || - if left side false then right side will be executed 
+// && - if left side true then right side will be executed
+
+/* ? - ternary operator --shortcut to if-else */
+// if(condition){
+
+// }
+// else{
+
+// }
+
+// condition ? "execute for truth" : "execute of false"
+// (left || right )
+
+// 0, false , null , undefined, "" 
+
+
+// show trending news 
+const showTrending = () => {
+    let trendingNews = fetchData.filter(singleData => singleData.others_info.is_trending === true);
+    // console.log(trendingNews);
+    const category_name = document.getElementById("category-name").innerText;
+    showAllNews(trendingNews, category_name);
+}
