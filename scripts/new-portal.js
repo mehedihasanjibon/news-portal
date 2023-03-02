@@ -39,7 +39,7 @@ const fetchCategoryNews = (category_id , category_name) =>{
 };
 
 const showAllNews = (data , category_name) =>{
-    console.log(data, category_name);
+    // console.log(data, category_name);
 
     document.getElementById("news-count").innerText = data.length;
     document.getElementById("category-name").innerText =  category_name;
@@ -51,7 +51,7 @@ const showAllNews = (data , category_name) =>{
     data.forEach(singleNews => {
         // console.log(singleNews);
 
-        const { _id,image_url, title, details, author, total_view, rating} = singleNews;
+        const {_id,image_url, title, details, author, total_view, rating} = singleNews;
 
         // newsContainer.innerHTML += ``;
         const card = document.createElement("div");
@@ -111,8 +111,7 @@ const fetchNewsDetail =  news_id => {
 };
 
 const showNewsDetail = newsDetail => {
-    // 
-    const { _id,image_url, title, details, author, total_view, rating, others_info} = newsDetail;
+    const {_id,image_url, title, details, author, total_view, rating, others_info} = newsDetail;
 
     document.getElementById("modal-body").innerHTML = `
         <div class="card mb-3">
